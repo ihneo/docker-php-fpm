@@ -1,7 +1,9 @@
 FROM nalscher/php:5.5-fpm-alpine
 
-RUN docker-php-ext-configure intl \
-    &&  docker-php-ext-install intl
+RUN apk update && \
+    apk add --no-cache libicu-dev && \
+    docker-php-ext-configure intl && \
+    docker-php-ext-install intl
 
 RUN pecl install mongodb-1.1.9
 
