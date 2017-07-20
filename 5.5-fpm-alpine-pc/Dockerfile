@@ -1,7 +1,7 @@
 FROM nalscher/php:5.5-fpm-alpine
 
 RUN apk update && \
-    apk add --no-cache icu-dev g++ autoconf openssl-dev make pcre-dev && \
+    apk add --no-cache icu-dev g++ autoconf openssl-dev make pcre pcre-dev && \
     docker-php-ext-configure intl && \
     docker-php-ext-install intl && \
     pecl install mongodb-1.1.9
