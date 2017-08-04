@@ -9,6 +9,9 @@ ENV NR_INSTALL_SILENT true
 ENV APP_DATETIME UTC
 ENV APP_POST_SIZE 64M
 
+ENV APP_ENVIRONMENT production
+ENV APP_DEPLOY_ENV production
+
 RUN echo http://dl-2.alpinelinux.org/alpine/edge/community/ >> /etc/apk/repositories
 
 RUN apk update && \
