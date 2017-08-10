@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# Add user and Group
-RUN addgroup -g $GUID nginx
-RUN adduser -D -S -h $APP_ROOT -s /sbin/nologin -G nginx -u $PUID nginx
-
 # Install Newrelic extension
 if [ "$APP_ENVIRONMENT" != "dev" ] && [ "$APP_REGION" == "us1" ]
 then
@@ -13,6 +9,13 @@ then
 	cp /usr/local/etc/php/conf.d/newrelic.ini /usr/local/etc/php-fpm.d/
 else
 	/bin/rm -f /usr/local/etc/php/conf.d/newrelic.ini
+fi
+
+# Change GUID et PUID
+if [ 33 -ne ${PUID} ] || [ 33 -ne ${GUID} ]
+then
+	usermod -u ${PUID} www-data
+	groupmod -g ${GUID} www-data
 fi
 
 # Exec php-fpm

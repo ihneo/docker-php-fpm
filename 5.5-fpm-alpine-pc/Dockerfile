@@ -1,7 +1,7 @@
 FROM nalscher/php:5.5-fpm-alpine
 
-ENV PUID 100
-ENV GUID 101 
+ENV PUID 1000
+ENV GUID 1000
 
 ENV APP_ROOT /var/www/html
 ENV NR_VERSION newrelic-php5-7.4.0.198-linux-musl
@@ -30,8 +30,6 @@ RUN printf "[Date]\ndate.timezone = \"${APP_DATETIME}\"" > /usr/local/etc/php-fp
 
 RUN printf "opcache.fast_shutdown = 0\nopcache.enable_cli = 0\nupload_max_filesize = ${APP_POST_SIZE}\npost_max_size = ${APP_POST_SIZE}" > /usr/local/etc/php/conf.d/z-pc.ini
 RUN printf "opcache.fast_shutdown = 0\nopcache.enable_cli = 0\nupload_max_filesize = ${APP_POST_SIZE}\npost_max_size = ${APP_POST_SIZE}" > /usr/local/etc/php-fpm.d/z-pc.ini
-
-RUN sed -i 's/www\-data/nginx/g' /usr/local/etc/php-fpm.d/www.conf
 
 RUN cd && \
     wget http://download.newrelic.com/php_agent/release/${NR_VERSION}.tar.gz && \
