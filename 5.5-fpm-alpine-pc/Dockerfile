@@ -16,7 +16,8 @@ RUN echo http://dl-2.alpinelinux.org/alpine/edge/community/ >> /etc/apk/reposito
 
 RUN apk update && \
     apk add --no-cache shadow icu-dev g++ autoconf openssl-dev make pcre pcre-dev bash && \
-    docker-php-ext-configure intl opcache && \
+    docker-php-ext-configure intl && \
+    docker-php-ext-configure opcache && \
     docker-php-ext-install intl opcache && \
     pecl install mongodb-1.1.9 && \
     printf "\n" | pecl install apcu-4.0.11
