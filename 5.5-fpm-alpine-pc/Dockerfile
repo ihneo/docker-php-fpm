@@ -16,14 +16,17 @@ RUN echo http://dl-2.alpinelinux.org/alpine/edge/community/ >> /etc/apk/reposito
 
 RUN apk update && \
     apk add --no-cache shadow icu-dev g++ autoconf openssl-dev make pcre pcre-dev bash && \
-    docker-php-ext-configure intl && \
-    docker-php-ext-install intl && \
-    pecl install mongodb-1.1.9
+    docker-php-ext-configure intl opcache && \
+    docker-php-ext-install intl opcache && \
+    pecl install mongodb-1.1.9 && \
+    printf "\n" | pecl install apcu-4.0.11
 
 RUN wget http://ffmpeg.gusari.org/static/64bit/ffmpeg.static.64bit.latest.tar.gz -O - | tar zxf - -C /usr/bin
 
 RUN echo "extension=mongodb.so" > /usr/local/etc/php/conf.d/mongodb.ini
 RUN echo "extension=mongodb.so" > /usr/local/etc/php-fpm.d/mongodb.ini
+RUN echo "extension=apcu.so" > /usr/local/etc/php/conf.d/apcu.ini
+RUN echo "extension=apcu.so" > /usr/local/etc/php-fpm.d/apcu.ini
 
 RUN printf "[Date]\ndate.timezone = \"${APP_DATETIME}\"" > /usr/local/etc/php/conf.d/timezone.ini
 RUN printf "[Date]\ndate.timezone = \"${APP_DATETIME}\"" > /usr/local/etc/php-fpm.d/timezone.ini
