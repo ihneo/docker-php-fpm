@@ -31,9 +31,6 @@ RUN printf "[Date]\ndate.timezone = \"${APP_DATETIME}\"" > /usr/local/etc/php-fp
 RUN printf "opcache.fast_shutdown = 0\nopcache.enable_cli = 0\nupload_max_filesize = ${APP_POST_SIZE}\npost_max_size = ${APP_POST_SIZE}" > /usr/local/etc/php/conf.d/z-pc.ini
 RUN printf "opcache.fast_shutdown = 0\nopcache.enable_cli = 0\nupload_max_filesize = ${APP_POST_SIZE}\npost_max_size = ${APP_POST_SIZE}" > /usr/local/etc/php-fpm.d/z-pc.ini
 
-RUN addgroup -g $GUID nginx
-RUN adduser -D -S -h $APP_ROOT -s /sbin/nologin -G nginx -u $PUID nginx
-
 RUN sed -i 's/www\-data/nginx/g' /usr/local/etc/php-fpm.d/www.conf
 
 RUN cd && \

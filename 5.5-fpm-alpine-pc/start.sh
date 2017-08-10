@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Add user and Group
+RUN addgroup -g $GUID nginx
+RUN adduser -D -S -h $APP_ROOT -s /sbin/nologin -G nginx -u $PUID nginx
+
 # Install Newrelic extension
 if [ "$APP_ENVIRONMENT" != "dev" ] && [ "$APP_REGION" == "us1" ]
 then
