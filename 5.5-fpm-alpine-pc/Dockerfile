@@ -8,6 +8,7 @@ ENV NR_VERSION newrelic-php5-7.4.0.198-linux-musl
 ENV NR_INSTALL_SILENT true
 ENV APP_DATETIME UTC
 ENV APP_POST_SIZE 64M
+ENV APP_MEMORY_LIMIT 256M
 
 ENV APP_ENVIRONMENT production
 ENV APP_DEPLOY_ENV production
@@ -34,8 +35,8 @@ RUN echo "extension=apcu.so" > /usr/local/etc/php-fpm.d/apcu.ini
 RUN printf "[Date]\ndate.timezone = \"${APP_DATETIME}\"" > /usr/local/etc/php/conf.d/timezone.ini
 RUN printf "[Date]\ndate.timezone = \"${APP_DATETIME}\"" > /usr/local/etc/php-fpm.d/timezone.ini
 
-RUN printf "opcache.fast_shutdown = 0\nopcache.enable_cli = 0\nupload_max_filesize = ${APP_POST_SIZE}\npost_max_size = ${APP_POST_SIZE}" > /usr/local/etc/php/conf.d/z-pc.ini
-RUN printf "opcache.fast_shutdown = 0\nopcache.enable_cli = 0\nupload_max_filesize = ${APP_POST_SIZE}\npost_max_size = ${APP_POST_SIZE}" > /usr/local/etc/php-fpm.d/z-pc.ini
+RUN printf "opcache.fast_shutdown = 0\nopcache.enable_cli = 0\nupload_max_filesize = ${APP_POST_SIZE}\npost_max_size = ${APP_POST_SIZE}\nmemory_limit = ${APP_MEMORY_LIMIT}" > /usr/local/etc/php/conf.d/z-pc.ini
+RUN printf "opcache.fast_shutdown = 0\nopcache.enable_cli = 0\nupload_max_filesize = ${APP_POST_SIZE}\npost_max_size = ${APP_POST_SIZE}\nmemory_limit = ${APP_MEMORY_LIMIT}" > /usr/local/etc/php-fpm.d/z-pc.ini
 
 RUN cd && \
     wget http://download.newrelic.com/php_agent/release/${NR_VERSION}.tar.gz && \
