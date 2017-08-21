@@ -32,8 +32,8 @@ RUN echo "extension=apcu.so" > /usr/local/etc/php-fpm.d/apcu.ini
 RUN printf "[Date]\ndate.timezone = \"${APP_DATETIME}\"" > /usr/local/etc/php/conf.d/timezone.ini
 RUN printf "[Date]\ndate.timezone = \"${APP_DATETIME}\"" > /usr/local/etc/php-fpm.d/timezone.ini
 
-RUN printf "opcache.fast_shutdown = 0\nopcache.enable_cli = 0\nupload_max_filesize = ${APP_POST_SIZE}\npost_max_size = ${APP_POST_SIZE}" > /usr/local/etc/php/conf.d/z-pc.ini
-RUN printf "opcache.fast_shutdown = 0\nopcache.enable_cli = 0\nupload_max_filesize = ${APP_POST_SIZE}\npost_max_size = ${APP_POST_SIZE}" > /usr/local/etc/php-fpm.d/z-pc.ini
+RUN printf "opcache.fast_shutdown = 0\nopcache.enable_cli = 0\nupload_max_filesize = ${APP_POST_SIZE}\npost_max_size = ${APP_POST_SIZE}\ndisplay_errors = Off" > /usr/local/etc/php/conf.d/z-pc.ini
+RUN printf "opcache.fast_shutdown = 0\nopcache.enable_cli = 0\nupload_max_filesize = ${APP_POST_SIZE}\npost_max_size = ${APP_POST_SIZE}\ndisplay_errors = Off" > /usr/local/etc/php-fpm.d/z-pc.ini
 
 RUN cd && \
     wget http://download.newrelic.com/php_agent/release/${NR_VERSION}.tar.gz && \
