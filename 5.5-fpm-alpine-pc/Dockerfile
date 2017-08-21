@@ -28,18 +28,26 @@ RUN apk update && \
 
 RUN wget http://ffmpeg.gusari.org/static/64bit/ffmpeg.static.64bit.latest.tar.gz -O - | tar zxf - -C /usr/bin
 
-RUN echo "extension=mongodb.so" > /usr/local/etc/php/conf.d/mongodb.ini
-RUN echo "extension=mongodb.so" > /usr/local/etc/php-fpm.d/mongodb.ini
-RUN echo "extension=apcu.so" > /usr/local/etc/php/conf.d/apcu.ini
-RUN echo "extension=apcu.so" > /usr/local/etc/php-fpm.d/apcu.ini
-RUN echo "extension=ssh2.so" > /usr/local/etc/php/conf.d/ssh2.ini
-RUN echo "extension=ssh2.so" > /usr/local/etc/php-fpm.d/ssh2.ini
+RUN echo "extension=mongodb.so" > /usr/local/etc/php/conf.d/zz-pc-mongodb.ini && \
+    echo "extension=apcu.so" > /usr/local/etc/php/conf.d/zz-pc-apcu.ini && \
+    echo "extension=ssh2.so" > /usr/local/etc/php/conf.d/zz-pc-ssh2.ini && \
+    
+    printf "[Date]\ndate.timezone = \"${APP_DATETIME}\"" > /usr/local/etc/php/conf.d/zz-pc-timezone.ini && \
+    
+    echo "opcache.fast_shutdown = 0" > /usr/local/etc/php/conf.d/zz-pc-opcache.ini && \
+    echo "opcache.enable_cli = 0" >> /usr/local/etc/php/conf.d/zz-pc-opcache.ini && \
+    
+    echo "upload_max_filesize = ${APP_POST_SIZE}" > /usr/local/etc/php/conf.d/zz-pc-limit.ini && \
+    echo "post_max_size = ${APP_POST_SIZE}" >> /usr/local/etc/php/conf.d/zz-pc-limit.ini && \
+    echo "memory_limit = ${APP_MEMORY_LIMIT}" >> /usr/local/etc/php/conf.d/zz-pc-limit.ini && \
+    
+    echo "display_errors = Off" > /usr/local/etc/php/conf.d/zz-pc-errors.ini && \
+    echo "log_errors = on" >> /usr/local/etc/php/conf.d/zz-pc-errors.ini && \
+    echo "error_log = /var/log/php/error.log" >> /usr/local/etc/php/conf.d/zz-pc-errors.ini && \
+    
+    /bin/cp -f /usr/local/etc/php/conf.d/zz-pc-* /usr/local/etc/php-fpm.d/
 
-RUN printf "[Date]\ndate.timezone = \"${APP_DATETIME}\"" > /usr/local/etc/php/conf.d/timezone.ini
-RUN printf "[Date]\ndate.timezone = \"${APP_DATETIME}\"" > /usr/local/etc/php-fpm.d/timezone.ini
-
-RUN printf "opcache.fast_shutdown = 0\nopcache.enable_cli = 0\nupload_max_filesize = ${APP_POST_SIZE}\npost_max_size = ${APP_POST_SIZE}\nmemory_limit = ${APP_MEMORY_LIMIT}\ndisplay_errors = Off" > /usr/local/etc/php/conf.d/z-pc.ini
-RUN printf "opcache.fast_shutdown = 0\nopcache.enable_cli = 0\nupload_max_filesize = ${APP_POST_SIZE}\npost_max_size = ${APP_POST_SIZE}\nmemory_limit = ${APP_MEMORY_LIMIT}\ndisplay_errors = Off" > /usr/local/etc/php-fpm.d/z-pc.ini
+RUN mkdir /var/log/php && cd /var/log/php && ln -s  /dev/stderr error.log
 
 RUN cd && \
     wget http://download.newrelic.com/php_agent/release/${NR_VERSION}.tar.gz && \
