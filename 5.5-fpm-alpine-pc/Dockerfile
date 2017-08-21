@@ -16,10 +16,12 @@ ENV APP_DEPLOY_ENV production
 RUN echo http://dl-2.alpinelinux.org/alpine/edge/community/ >> /etc/apk/repositories
 
 RUN apk update && \
-    apk add --no-cache shadow icu-dev g++ autoconf openssl-dev make pcre pcre-dev bash msttcorefonts-installer gnumeric libssh2-dev openssh-client && \
+    apk add --no-cache shadow icu-dev g++ autoconf openssl-dev make pcre pcre-dev bash msttcorefonts-installer gnumeric libssh2-dev openssh-client bzip2-dev && \
     docker-php-ext-configure intl && \
     docker-php-ext-configure opcache && \
-    docker-php-ext-install intl opcache && \
+    docker-php-ext-configure zip && \
+    docker-php-ext-configure bz2 && \
+    docker-php-ext-install intl opcache zip bz2 && \
     update-ms-fonts && \
     fc-cache -f && \
     pecl install mongodb-1.1.9 && \
