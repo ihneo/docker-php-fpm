@@ -46,7 +46,8 @@ RUN echo "extension=mongodb.so" > /usr/local/etc/php/conf.d/zz-pc-mongodb.ini &&
     echo "display_errors = Off" > /usr/local/etc/php/conf.d/zz-pc-errors.ini && \
     echo "log_errors = on" >> /usr/local/etc/php/conf.d/zz-pc-errors.ini && \
     echo "error_log = /var/log/php/error.log" >> /usr/local/etc/php/conf.d/zz-pc-errors.ini && \
-    
+    echo "error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT" >> /usr/local/etc/php/conf.d/zz-pc-errors.ini && \
+
     /bin/cp -f /usr/local/etc/php/conf.d/zz-pc-* /usr/local/etc/php-fpm.d/
 
 RUN mkdir /var/log/php && cd /var/log/php && ln -s  /dev/stderr error.log
