@@ -1,4 +1,4 @@
-FROM nalscher/php:5.5.38-fpm-alpine
+FROM nalscher/php:5.5-fpm-alpine
 
 ENV PUID 1000
 ENV GUID 1000
@@ -52,6 +52,11 @@ RUN echo "extension=mongodb.so" > /usr/local/etc/php/conf.d/zz-pc-mongodb.ini &&
     /bin/cp -f /usr/local/etc/php/conf.d/zz-pc-* /usr/local/etc/php-fpm.d/
 
 RUN mkdir /var/log/php && cd /var/log/php && ln -s  /dev/stderr error.log
+
+# @see : https://github.com/docker-library/php/issues/240 or https://gist.github.com/guillemcanal/be3db96d3caa315b4e2b8259cab7d07e
+RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing gnu-libiconv
+ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
+ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php-fpm
 
 RUN cd && \
     wget http://download.newrelic.com/php_agent/release/${NR_VERSION}.tar.gz && \
