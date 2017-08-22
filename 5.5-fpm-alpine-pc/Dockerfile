@@ -1,4 +1,4 @@
-FROM nalscher/php:5.5-fpm-alpine
+FROM nalscher/php:5.5.38-fpm-alpine
 
 ENV PUID 1000
 ENV GUID 1000
@@ -21,7 +21,8 @@ RUN apk update && \
     docker-php-ext-configure opcache && \
     docker-php-ext-configure zip && \
     docker-php-ext-configure bz2 && \
-    docker-php-ext-install intl opcache zip bz2 && \
+    docker-php-ext-configure iconv && \
+    docker-php-ext-install intl opcache zip bz2 iconv && \
     update-ms-fonts && \
     fc-cache -f && \
     pecl install mongodb-1.1.9 && \
