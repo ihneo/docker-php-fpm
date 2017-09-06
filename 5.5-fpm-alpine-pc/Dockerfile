@@ -9,6 +9,9 @@ ENV NR_INSTALL_SILENT true
 ENV APP_DATETIME UTC
 ENV APP_POST_SIZE 64M
 ENV APP_MEMORY_LIMIT 256M
+ENV APP_MAX_EXECUTION_TIME 120
+ENV APP_MAX_CHILDREN = 20
+ENV APP_PROCESS_IDLE_TIMEOUT = 10s
 
 ENV APP_ENVIRONMENT production
 ENV APP_DEPLOY_ENV production
@@ -45,6 +48,7 @@ RUN echo "extension=mongodb.so" > /usr/local/etc/php/conf.d/zz-pc-mongodb.ini &&
     echo "upload_max_filesize = ${APP_POST_SIZE}" > /usr/local/etc/php/conf.d/zz-pc-limit.ini && \
     echo "post_max_size = ${APP_POST_SIZE}" >> /usr/local/etc/php/conf.d/zz-pc-limit.ini && \
     echo "memory_limit = ${APP_MEMORY_LIMIT}" >> /usr/local/etc/php/conf.d/zz-pc-limit.ini && \
+    echo "max_execution_time = ${APP_MAX_EXECUTION_TIME}" >> /usr/local/etc/php/conf.d/zz-pc-limit.ini && \
     
     echo "display_errors = Off" > /usr/local/etc/php/conf.d/zz-pc-errors.ini && \
     echo "log_errors = on" >> /usr/local/etc/php/conf.d/zz-pc-errors.ini && \
@@ -52,6 +56,10 @@ RUN echo "extension=mongodb.so" > /usr/local/etc/php/conf.d/zz-pc-mongodb.ini &&
     echo "error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT" >> /usr/local/etc/php/conf.d/zz-pc-errors.ini && \
 
     /bin/cp -f /usr/local/etc/php/conf.d/zz-pc-* /usr/local/etc/php-fpm.d/
+
+RUN echo "pm = ondemand" >> /usr/local/etc/php-fpm.conf && \
+    echo "pm.max_children = ${APP_MAX_CHILDREN}" >> /usr/local/etc/php-fpm.conf && \
+    echo "pm.process_idle_timeout = ${APP_PROCESS_IDLE_TIMEOUT}" >> /usr/local/etc/php-fpm.conf
 
 RUN mkdir /var/log/php && cd /var/log/php && ln -s  /dev/stderr error.log
 
