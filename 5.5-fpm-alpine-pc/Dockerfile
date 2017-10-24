@@ -16,7 +16,7 @@ ENV APP_PROCESS_IDLE_TIMEOUT 10s
 ENV APP_ENVIRONMENT production
 ENV APP_DEPLOY_ENV production
 
-RUN echo http://dl-2.alpinelinux.org/alpine/edge/community/ >> /etc/apk/repositories
+RUN echo http://distrib-coffee.ipsl.jussieu.fr/pub/linux/alpine/alpine/edge/community/ >> /etc/apk/repositories
 
 RUN apk update && \
     apk add --no-cache shadow icu-dev g++ autoconf openssl-dev \
