@@ -34,7 +34,7 @@ RUN apk update && \
     printf "\n" | pecl install apcu-4.0.11 && \
     printf "\n" | pecl install ssh2
 
-RUN wget http://ffmpeg.gusari.org/static/64bit/ffmpeg.static.64bit.latest.tar.gz -O - | tar zxf - -C /usr/bin
+# RUN wget http://ffmpeg.gusari.org/static/64bit/ffmpeg.static.64bit.latest.tar.gz -O - | tar zxf - -C /usr/bin
 
 RUN echo "extension=mongodb.so" > /usr/local/etc/php/conf.d/zz-pc-mongodb.ini && \
     echo "extension=apcu.so" > /usr/local/etc/php/conf.d/zz-pc-apcu.ini && \
