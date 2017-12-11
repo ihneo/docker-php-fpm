@@ -30,11 +30,9 @@ RUN apk update && \
     docker-php-ext-install intl opcache zip bz2 iconv && \
     update-ms-fonts && \
     fc-cache -f && \
-    pecl install mongodb-1.1.9 && \
+    pecl install mongodb-1.2.10 && \
     printf "\n" | pecl install apcu-4.0.11 && \
     printf "\n" | pecl install ssh2
-
-# RUN wget http://ffmpeg.gusari.org/static/64bit/ffmpeg.static.64bit.latest.tar.gz -O - | tar zxf - -C /usr/bin
 
 RUN echo "extension=mongodb.so" > /usr/local/etc/php/conf.d/zz-pc-mongodb.ini && \
     echo "extension=apcu.so" > /usr/local/etc/php/conf.d/zz-pc-apcu.ini && \
