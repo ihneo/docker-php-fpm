@@ -1,10 +1,10 @@
-FROM nalscher/php:5.5-fpm-alpine
+FROM php:5.6-fpm-alpine
 
 ENV PUID 1000
 ENV GUID 1000
 
 ENV APP_ROOT /var/www/html
-ENV NR_VERSION newrelic-php5-7.6.0.201-linux-musl
+ENV NR_VERSION newrelic-php5-7.7.0.203-linux-musl
 ENV NR_INSTALL_SILENT true
 ENV APP_DATETIME UTC
 ENV APP_POST_SIZE 64M
@@ -30,7 +30,7 @@ RUN apk update && \
     docker-php-ext-install intl opcache zip bz2 iconv && \
     update-ms-fonts && \
     fc-cache -f && \
-    pecl install mongodb-1.2.10 && \
+    pecl install mongodb-1.2.11 && \
     printf "\n" | pecl install apcu-4.0.11 && \
     printf "\n" | pecl install ssh2
 
